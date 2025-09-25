@@ -5,6 +5,7 @@ using UnityEngine;
 public class SpaceshipController : SpaceshipControllerBase
 {
     [SerializeField] private float force = 25f;
+    float gravity = 9.81f;
     private void Start()
     {
         foreach (RocketEngine engine in _RocketEngines)
@@ -18,12 +19,9 @@ public class SpaceshipController : SpaceshipControllerBase
     {
         Vector3 shipToTargetVector = _TargetPosition - transform.position;
         
-        _RocketEngines[0].Thrust(9.81f);
-        
-
         if (shipToTargetVector.y > 0f)
         {
-            _RocketEngines[0].Thrust(force);
+            _RocketEngines[0].Thrust(force + gravity);
         }
         else
         {
