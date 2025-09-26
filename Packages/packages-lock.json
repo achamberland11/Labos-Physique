@@ -45,7 +45,7 @@
       "dependencies": {}
     },
     "com.unity.ide.rider": {
-      "version": "3.0.36",
+      "version": "3.0.38",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -204,9 +204,9 @@
       "url": "https://packages.unity.com"
     },
     "com.uqat.pgj1301": {
-      "version": "file:C:/Users/chaa126/Downloads/Uqat_PGJ1301-main",
+      "version": "https://github.com/m4lgor/Uqat_PGJ1301.git",
       "depth": 0,
-      "source": "local",
+      "source": "git",
       "dependencies": {
         "com.unity.ai.navigation": "2.0.8",
         "com.unity.collab-proxy": "2.9.3",
@@ -251,7 +251,8 @@
         "com.unity.modules.vr": "1.0.0",
         "com.unity.modules.wind": "1.0.0",
         "com.unity.modules.xr": "1.0.0"
-      }
+      },
+      "hash": "270efdde4499991bd40f8b7c5898d758496e238c"
     },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",
