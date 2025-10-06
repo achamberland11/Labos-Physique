@@ -1,10 +1,9 @@
-using System;
 using UnityEngine;
 
 public class ForceApplier : MonoBehaviour
 {
-    private Rigidbody rb;
-    [SerializeField] ForceMode mode;
+     Rigidbody rb;
+    [SerializeField] protected ForceMode mode;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -20,6 +19,11 @@ public class ForceApplier : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.AddForce(transform.forward, mode);
+        ApplyForce(transform.forward);
+    }
+
+    protected void ApplyForce(Vector3 v) 
+    {
+        rb.AddForce(v, mode);
     }
 }
