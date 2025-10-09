@@ -3,9 +3,8 @@ using UnityEngine;
 public class AutoRotate : MonoBehaviour
 {
     [SerializeField] private float _RotationSpeed = 75.0f; // Degrees per second
-    [SerializeField] private bool _DrawDebug = true; // Degrees per second
+    [SerializeField] private bool _DrawDebug = true;
 
-    // Update is called once per frame
     void Update()
     {
         var rb = GetComponent<Rigidbody>();

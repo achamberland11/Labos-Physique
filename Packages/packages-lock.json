@@ -54,11 +54,11 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.visualstudio": {
-      "version": "2.0.23",
+      "version": "2.0.25",
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.unity.test-framework": "1.1.9"
+        "com.unity.test-framework": "1.1.31"
       },
       "url": "https://packages.unity.com"
     },
@@ -252,7 +252,7 @@
         "com.unity.modules.wind": "1.0.0",
         "com.unity.modules.xr": "1.0.0"
       },
-      "hash": "910b69e9b6981400ba7cab896ce4c8904579c298"
+      "hash": "1ac850f55d451303e42e395f7f9fed80a8ba0b69"
     },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",
