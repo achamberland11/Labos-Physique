@@ -14,7 +14,7 @@ public class JointsCreator : MonoBehaviour
     void Update()
     {
         Ray rayon = new Ray(transform.position, transform.up);
-        Debug.DrawLine(rayon.origin, rayon.origin + rayon.direction * Mathf.Infinity, Color.green);
+        Debug.DrawLine(rayon.origin, rayon.origin + rayon.direction * 10f, Color.yellow);
         
         if (Physics.Raycast(rayon, out RaycastHit hitInfo))
         {
