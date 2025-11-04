@@ -2,9 +2,9 @@
 
 public class SpaceshipController2 : SpaceshipControllerBase
 {
-    private const float BASEFORCE = 8f;
+    private const float BASEFORCE = 12f;
     private float force;
-    float _gravity = 9.81f;
+    const float GRAVITY = 9.81f;
     bool bEngine0Thrusting;
     bool bEngine1Thrusting;
     bool bEngine2Thrusting;
@@ -54,7 +54,7 @@ public class SpaceshipController2 : SpaceshipControllerBase
     {
         Vector3 shipToTargetVector = _TargetPosition - transform.position;
 
-        float lowestY = 0f;
+        float lowestY = 10000f;
 
         foreach (RocketEngine engine in _RocketEngines)
         {
@@ -66,8 +66,7 @@ public class SpaceshipController2 : SpaceshipControllerBase
 
         ApplyThrust(shipToTargetVector, lowestY);
     }
-
-
+    
     void ApplyThrust(Vector3 shipToTargetVector, float lowestY)
     {
         Vector3 posEngine0 = _RocketEngines[0].gameObject.transform.position;
@@ -80,7 +79,7 @@ public class SpaceshipController2 : SpaceshipControllerBase
         if (Vector3.Distance(posEngine0, shipToTargetVector) > Vector3.Distance(posEngine3, shipToTargetVector))
         {
             if (posEngine0.y <= lowestY && transform.position.y < _TargetPosition.y)
-                _RocketEngines[0].Thrust(force + _gravity);
+                _RocketEngines[0].Thrust(force + GRAVITY);
             else
                 _RocketEngines[0].Thrust(force);
             
@@ -90,7 +89,7 @@ public class SpaceshipController2 : SpaceshipControllerBase
         else
         {
             if (posEngine3.y <= lowestY && transform.position.y < _TargetPosition.y)
-                _RocketEngines[3].Thrust(force + _gravity);
+                _RocketEngines[3].Thrust(force);
             else
                 _RocketEngines[3].Thrust(force);
             
@@ -100,8 +99,8 @@ public class SpaceshipController2 : SpaceshipControllerBase
 
         if (Vector3.Distance(posEngine1, shipToTargetVector) > Vector3.Distance(posEngine2, shipToTargetVector))
         {
-            if (posEngine3.y <= lowestY && transform.position.y < _TargetPosition.y)
-                _RocketEngines[1].Thrust(force + _gravity);
+            if (posEngine1.y <= lowestY && transform.position.y < _TargetPosition.y)
+                _RocketEngines[1].Thrust(force + GRAVITY);
             else
                 _RocketEngines[1].Thrust(force);
             
@@ -111,7 +110,7 @@ public class SpaceshipController2 : SpaceshipControllerBase
         else
         {
             if (posEngine2.y <= lowestY && transform.position.y < _TargetPosition.y)
-                _RocketEngines[2].Thrust(force + _gravity);
+                _RocketEngines[2].Thrust(force + GRAVITY);
             else
                 _RocketEngines[2].Thrust(force);
             
@@ -119,5 +118,4 @@ public class SpaceshipController2 : SpaceshipControllerBase
             bEngine1Thrusting = false;
         }
     }
-
 }

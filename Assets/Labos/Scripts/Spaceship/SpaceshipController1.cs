@@ -16,7 +16,6 @@ public class SpaceshipController1 : SpaceshipControllerBase
     {
         foreach (RocketEngine engine in _RocketEngines)
         {
-            Debug.Log(engine.gameObject.name);
             engine.EnablePropulsion(true);
         }
     }
@@ -70,7 +69,7 @@ public class SpaceshipController1 : SpaceshipControllerBase
         }
         else
         {
-            _RocketEngines[3].Thrust(forceY - _gravity * (1 - DAMPING_FACTOR));
+            _RocketEngines[3].Thrust(forceY * (1 - DAMPING_FACTOR));
             bEngine3Thrusting = true;
             bEngine0Thrusting = false;
         }
