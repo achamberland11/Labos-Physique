@@ -12,14 +12,6 @@ public class SpaceshipController2 : SpaceshipController1
         transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, Random.Range(0f, 360f));
     }
     
-    /// <summary>
-    /// Normalement, la fonction devrait trouver quels engines sont sur l'axe y et lesquels sont sur l'axe x.
-    /// Ensuite le reste de la fonction devrait trouver le moteur le plus éloigné de la cible sur chaque axe et appliquer
-    /// une force aux engines correspondantes, la force appliqué est proportionnel à la distance et la gravité est ajouté
-    /// si nécessaire. Tout ce processus se fait correctement selon les Debug.Log mais le spaceship ne se dirige pas vers
-    /// la cible pour une raison qui m'échappe.
-    /// </summary>
-    /// <param name="shipToTargetVector"></param>
     protected override void ApplyThrust(Vector3 shipToTargetVector)
     {
         Vector3 posEngine0 = _RocketEngines[0].gameObject.transform.position;
@@ -27,10 +19,10 @@ public class SpaceshipController2 : SpaceshipController1
         Vector3 posEngine2 = _RocketEngines[2].gameObject.transform.position;
         Vector3 posEngine3 = _RocketEngines[3].gameObject.transform.position;
 
-        if (Mathf.Abs(posEngine0.y) < Mathf.Abs(posEngine1.y))
+        if (Mathf.Abs(posEngine0.y) > Mathf.Abs(posEngine1.y))
         {
-            Debug.Log(_RocketEngines[0].gameObject.name + " and " + _RocketEngines[3].gameObject.name + " are on the y axis");
-            Debug.Log(_RocketEngines[1].gameObject.name + " and " + _RocketEngines[2].gameObject.name + " are on the x axis");
+            // Debug.Log(_RocketEngines[0].gameObject.name + " and " + _RocketEngines[3].gameObject.name + " are on the y axis");
+            // Debug.Log(_RocketEngines[1].gameObject.name + " and " + _RocketEngines[2].gameObject.name + " are on the x axis");
             
             // Up or Down
             if (shipToTargetVector.y > 0f)
@@ -38,12 +30,12 @@ public class SpaceshipController2 : SpaceshipController1
                 if (posEngine0.y < posEngine3.y)
                 {
                     _RocketEngines[0].Thrust(forceY + GRAVITY);
-                    Debug.Log(_RocketEngines[0].gameObject.name + " Thrusting up with : " + (forceY + GRAVITY) + " force");
+                    _RocketEngines[3].Thrust(0f);
                 }
                 else
                 {
                     _RocketEngines[3].Thrust(forceY + GRAVITY);
-                    Debug.Log(_RocketEngines[3].gameObject.name + " Thrusting up with : " + (forceY + GRAVITY) + " force");
+                    _RocketEngines[0].Thrust(0f);
                 }
             }
             else
@@ -51,47 +43,49 @@ public class SpaceshipController2 : SpaceshipController1
                 if (posEngine0.y > posEngine3.y)
                 {
                     _RocketEngines[0].Thrust(forceY);
-                    Debug.Log(_RocketEngines[0].gameObject.name + " Thrusting down with : " + forceY + " force");
+                    _RocketEngines[3].Thrust(GRAVITY);
                 }
                 else
                 {
                     _RocketEngines[3].Thrust(forceY);
-                    Debug.Log(_RocketEngines[3].gameObject.name + " Thrusting down with : " + forceY + " force");
+                    _RocketEngines[0].Thrust(GRAVITY);
                 }
             }
     
             // Left or Right
             if (shipToTargetVector.x > 0f)
             {
+                Debug.Log("Target is on the right");
                 if (posEngine1.x < posEngine2.x)
                 {
                     _RocketEngines[1].Thrust(forceX);
-                    Debug.Log(_RocketEngines[1].gameObject.name + " Thrusting right with : " + forceX + " force");
+                    _RocketEngines[2].Thrust(0f);
                 }
                 else
                 {
                     _RocketEngines[2].Thrust(forceX);
-                    Debug.Log(_RocketEngines[2].gameObject.name + " Thrusting right with : " + forceX + " force");
+                    _RocketEngines[1].Thrust(0f);
                 }
             }
             else
             {
+                Debug.Log("Target is on the left");
                 if (posEngine1.x > posEngine2.x)
                 {
                     _RocketEngines[1].Thrust(forceX);
-                    Debug.Log(_RocketEngines[1].gameObject.name + " Thrusting left with : " + forceX + " force");
+                    _RocketEngines[2].Thrust(0f);
                 }
                 else
                 {
                     _RocketEngines[2].Thrust(forceX);
-                    Debug.Log(_RocketEngines[2].gameObject.name + " Thrusting left with : " + forceX + " force");
+                    _RocketEngines[1].Thrust(0f);
                 }
             }
         }
         else
         {
-            Debug.Log(_RocketEngines[1].gameObject.name + " and " + _RocketEngines[2].gameObject.name + " are on the y axis");
-            Debug.Log(_RocketEngines[0].gameObject.name + " and " + _RocketEngines[3].gameObject.name + " are on the x axis");
+            // Debug.Log(_RocketEngines[1].gameObject.name + " and " + _RocketEngines[2].gameObject.name + " are on the y axis");
+            // Debug.Log(_RocketEngines[0].gameObject.name + " and " + _RocketEngines[3].gameObject.name + " are on the x axis");
             
             // Up or Down
             if (shipToTargetVector.y > 0f)
@@ -99,12 +93,12 @@ public class SpaceshipController2 : SpaceshipController1
                 if (posEngine1.y < posEngine2.y)
                 {
                     _RocketEngines[1].Thrust(forceY + GRAVITY);
-                    Debug.Log(_RocketEngines[1].gameObject.name + " Thrusting up with : " + (forceY + GRAVITY) + " force");
+                    _RocketEngines[2].Thrust(0f);
                 }
                 else
                 {
                     _RocketEngines[2].Thrust(forceY + GRAVITY);
-                    Debug.Log(_RocketEngines[2].gameObject.name + " Thrusting up with : " + (forceY + GRAVITY) + " force");
+                    _RocketEngines[1].Thrust(0f);
                 }
             }
             else
@@ -112,40 +106,42 @@ public class SpaceshipController2 : SpaceshipController1
                 if (posEngine1.y > posEngine2.y)
                 {
                     _RocketEngines[1].Thrust(forceY);
-                    Debug.Log(_RocketEngines[1].gameObject.name + " Thrusting down with : " + forceY + " force");
+                    _RocketEngines[2].Thrust(GRAVITY);
                 }
                 else
                 {
                     _RocketEngines[2].Thrust(forceY);
-                    Debug.Log(_RocketEngines[2].gameObject.name + " Thrusting down with : " + forceY + " force");
+                    _RocketEngines[1].Thrust(GRAVITY);
                 }
             }
 
             // Left or Right
             if (shipToTargetVector.x > 0f)
             {
-                if (posEngine0.x > posEngine3.x)
+                Debug.Log("Target is on the right");
+                if (posEngine0.x < posEngine3.x)
                 {
                     _RocketEngines[0].Thrust(forceX);
-                    Debug.Log(_RocketEngines[0].gameObject.name + " Thrusting right with : " + forceY + " force");
+                    _RocketEngines[3].Thrust(0f);
                 }
                 else
                 {
                     _RocketEngines[3].Thrust(forceX);
-                    Debug.Log(_RocketEngines[3].gameObject.name + " Thrusting right with : " + forceY + " force");
+                    _RocketEngines[0].Thrust(0f);
                 }
             }
             else
             {
-                if (posEngine0.x < posEngine3.x)
+                Debug.Log("Target is on the left");
+                if (posEngine0.x > posEngine3.x)
                 {
                     _RocketEngines[0].Thrust(forceX);
-                    Debug.Log(_RocketEngines[0].gameObject.name + " Thrusting left with : " + forceY + " force");
+                    _RocketEngines[3].Thrust(0f);
                 }
                 else
                 {
                     _RocketEngines[3].Thrust(forceX);
-                    Debug.Log(_RocketEngines[2].gameObject.name + " Thrusting left with : " + forceY + " force");
+                    _RocketEngines[0].Thrust(0f);
                 }
             }
         }
