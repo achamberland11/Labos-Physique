@@ -257,6 +257,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 66760187960202503, guid: b9dd036eb10904d49b1b192897f8bb8b, type: 3}
+      propertyPath: posText.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 66760187960202503, guid: b9dd036eb10904d49b1b192897f8bb8b, type: 3}
+      propertyPath: posText.y
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 802284340518923956, guid: b9dd036eb10904d49b1b192897f8bb8b, type: 3}
+      propertyPath: posText.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 802284340518923956, guid: b9dd036eb10904d49b1b192897f8bb8b, type: 3}
+      propertyPath: posText.y
+      value: 250
+      objectReference: {fileID: 0}
     - target: {fileID: 1417136001343635468, guid: b9dd036eb10904d49b1b192897f8bb8b, type: 3}
       propertyPath: m_Name
       value: Spaceship1
@@ -300,6 +316,22 @@ PrefabInstance:
     - target: {fileID: 2539426526116953986, guid: b9dd036eb10904d49b1b192897f8bb8b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3525636729917743249, guid: b9dd036eb10904d49b1b192897f8bb8b, type: 3}
+      propertyPath: posText.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3525636729917743249, guid: b9dd036eb10904d49b1b192897f8bb8b, type: 3}
+      propertyPath: posText.y
+      value: 350
+      objectReference: {fileID: 0}
+    - target: {fileID: 8386221876450713888, guid: b9dd036eb10904d49b1b192897f8bb8b, type: 3}
+      propertyPath: posText.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8386221876450713888, guid: b9dd036eb10904d49b1b192897f8bb8b, type: 3}
+      propertyPath: posText.y
+      value: 300
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2186133518855708950, guid: b9dd036eb10904d49b1b192897f8bb8b, type: 3}

@@ -20,11 +20,6 @@ public class SpaceshipController3 : SpaceshipController1
     {
         Vector3 shipToGoalVector = FindPath(FindGoal()) - transform.position;
         
-        bEngine0Thrusting = false;
-        bEngine1Thrusting = false;
-        bEngine2Thrusting = false;
-        bEngine3Thrusting = false;
-
         // Apply force relative to distance
         forceY = BASEFORCE + (Mathf.Abs(shipToGoalVector.y) *0.5f);
         forceX = BASEFORCE + (Mathf.Abs(shipToGoalVector.x) *0.5f);
@@ -61,7 +56,7 @@ public class SpaceshipController3 : SpaceshipController1
             if (hit.collider.gameObject.GetComponent<GoalComponent>())
             {
                 Debug.DrawLine(transform.position, hit.point, Color.green);
-                return goalPosition;
+                return hit.point;
             }
             else
             {
