@@ -1,121 +1,190 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 
-public class SpaceshipController2 : SpaceshipControllerBase
+public class SpaceshipController2 : SpaceshipController1 
 {
-    private const float BASEFORCE = 12f;
-    private float force;
-    const float GRAVITY = 9.81f;
-    bool bEngine0Thrusting;
-    bool bEngine1Thrusting;
-    bool bEngine2Thrusting;
-    bool bEngine3Thrusting;
 
-    private void Start()
+    protected void Start()
     {
-        foreach (RocketEngine engine in _RocketEngines)
-        {
-            engine.EnablePropulsion(true);
-        }
-        
+        base.Start();
+
         _Rigidbody.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
         transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, Random.Range(0f, 360f));
-
     }
 
     private void Update()
     {
         base.Update();
-        
-        if (bEngine0Thrusting)
-            _RocketEngines[0].gameObject.GetComponent<Renderer>().material.color = Color.yellow;
-        else
-            _RocketEngines[0].gameObject.GetComponent<Renderer>().material.color = Color.red;
-
-
-        if (bEngine1Thrusting)
-            _RocketEngines[1].gameObject.GetComponent<Renderer>().material.color = Color.yellow;
-        else
-            _RocketEngines[1].gameObject.GetComponent<Renderer>().material.color = Color.red;
-
-
-        if (bEngine2Thrusting)
-            _RocketEngines[2].gameObject.GetComponent<Renderer>().material.color = Color.yellow;
-        else
-            _RocketEngines[2].gameObject.GetComponent<Renderer>().material.color = Color.red;
-
-
-        if (bEngine3Thrusting)
-            _RocketEngines[3].gameObject.GetComponent<Renderer>().material.color = Color.yellow;
-        else
-            _RocketEngines[3].gameObject.GetComponent<Renderer>().material.color = Color.red;
-    }
-
-    private void FixedUpdate()
-    {
-        Vector3 shipToTargetVector = _TargetPosition - transform.position;
-
-        float lowestY = 10000f;
-
-        foreach (RocketEngine engine in _RocketEngines)
-        {
-            if (engine.gameObject.transform.position.y < lowestY)
-            {
-                lowestY = engine.gameObject.transform.position.y;
-            }
-        }
-
-        ApplyThrust(shipToTargetVector, lowestY);
     }
     
-    void ApplyThrust(Vector3 shipToTargetVector, float lowestY)
+    /// <summary>
+    /// Normalement, la fonction devrait trouver quels engines sont sur l'axe y et lesquels sont sur l'axe x.
+    /// Ensuite le reste de la fonction devrait trouver le moteur le plus éloigné de la cible sur chaque axe et appliquer
+    /// une force aux engines correspondantes, la force appliqué est proportionnel à la distance et la gravité est ajouté
+    /// si nécessaire. Tout ce processus se fait correctement selon les Debug.Log mais le spaceship ne se dirige pas vers
+    /// la cible pour une raison qui m'échappe.
+    /// </summary>
+    /// <param name="shipToTargetVector"></param>
+    protected override void ApplyThrust(Vector3 shipToTargetVector)
     {
         Vector3 posEngine0 = _RocketEngines[0].gameObject.transform.position;
         Vector3 posEngine1 = _RocketEngines[1].gameObject.transform.position;
         Vector3 posEngine2 = _RocketEngines[2].gameObject.transform.position;
         Vector3 posEngine3 = _RocketEngines[3].gameObject.transform.position;
-        
-        force = BASEFORCE + (shipToTargetVector.magnitude * 0.25f);
 
-        if (Vector3.Distance(posEngine0, shipToTargetVector) > Vector3.Distance(posEngine3, shipToTargetVector))
+        if (Mathf.Abs(posEngine0.y) < Mathf.Abs(posEngine1.y))
         {
-            if (posEngine0.y <= lowestY && transform.position.y < _TargetPosition.y)
-                _RocketEngines[0].Thrust(force + GRAVITY);
-            else
-                _RocketEngines[0].Thrust(force);
+            Debug.Log(_RocketEngines[0].gameObject.name + " and " + _RocketEngines[3].gameObject.name + " are on the y axis");
+            Debug.Log(_RocketEngines[1].gameObject.name + " and " + _RocketEngines[2].gameObject.name + " are on the x axis");
             
-            bEngine0Thrusting = true;
-            bEngine3Thrusting = false;
+            // Up or Down
+            if (shipToTargetVector.y > 0f)
+            {
+                if (posEngine0.y < posEngine3.y)
+                {
+                    _RocketEngines[0].Thrust(forceY + GRAVITY);
+                    bEngine0Thrusting = true;
+                    bEngine3Thrusting = false;
+                    Debug.Log(_RocketEngines[0].gameObject.name + " Thrusting up with : " + (forceY + GRAVITY) + " force");
+                }
+                else
+                {
+                    _RocketEngines[3].Thrust(forceY + GRAVITY);
+                    bEngine0Thrusting = false;
+                    bEngine3Thrusting = true;
+                    Debug.Log(_RocketEngines[3].gameObject.name + " Thrusting up with : " + (forceY + GRAVITY) + " force");
+                }
+            }
+            else
+            {
+                if (posEngine0.y > posEngine3.y)
+                {
+                    _RocketEngines[0].Thrust(forceY);
+                    bEngine0Thrusting = true;
+                    bEngine3Thrusting = false;
+                    Debug.Log(_RocketEngines[0].gameObject.name + " Thrusting down with : " + forceY + " force");
+                }
+                else
+                {
+                    _RocketEngines[3].Thrust(forceY);
+                    bEngine0Thrusting = false;
+                    bEngine3Thrusting = true;
+                    Debug.Log(_RocketEngines[3].gameObject.name + " Thrusting down with : " + forceY + " force");
+                }
+            }
+    
+            // Left or Right
+            if (shipToTargetVector.x > 0f)
+            {
+                if (posEngine1.x < posEngine2.x)
+                {
+                    _RocketEngines[1].Thrust(forceX);
+                    bEngine1Thrusting = true;
+                    bEngine2Thrusting = false;
+                    Debug.Log(_RocketEngines[1].gameObject.name + " Thrusting right with : " + forceX + " force");
+                }
+                else
+                {
+                    _RocketEngines[2].Thrust(forceX);
+                    bEngine1Thrusting = false;
+                    bEngine2Thrusting = true;
+                    Debug.Log(_RocketEngines[2].gameObject.name + " Thrusting right with : " + forceX + " force");
+                }
+            }
+            else
+            {
+                if (posEngine1.x > posEngine2.x)
+                {
+                    _RocketEngines[1].Thrust(forceX);
+                    bEngine1Thrusting = true;
+                    bEngine2Thrusting = false;
+                    Debug.Log(_RocketEngines[1].gameObject.name + " Thrusting left with : " + forceX + " force");
+                }
+                else
+                {
+                    _RocketEngines[2].Thrust(forceX);
+                    bEngine1Thrusting = false;
+                    bEngine2Thrusting = true;
+                    Debug.Log(_RocketEngines[2].gameObject.name + " Thrusting left with : " + forceX + " force");
+                }
+            }
         }
         else
         {
-            if (posEngine3.y <= lowestY && transform.position.y < _TargetPosition.y)
-                _RocketEngines[3].Thrust(force);
-            else
-                _RocketEngines[3].Thrust(force);
+            Debug.Log(_RocketEngines[1].gameObject.name + " and " + _RocketEngines[2].gameObject.name + " are on the y axis");
+            Debug.Log(_RocketEngines[0].gameObject.name + " and " + _RocketEngines[3].gameObject.name + " are on the x axis");
             
-            bEngine3Thrusting = true;
-            bEngine0Thrusting = false;
-        }
+            // Up or Down
+            if (shipToTargetVector.y > 0f)
+            {
+                if (posEngine1.y < posEngine2.y)
+                {
+                    _RocketEngines[1].Thrust(forceY + GRAVITY);
+                    bEngine0Thrusting = true;
+                    bEngine3Thrusting = false;
+                    Debug.Log(_RocketEngines[1].gameObject.name + " Thrusting up with : " + (forceY + GRAVITY) + " force");
+                }
+                else
+                {
+                    _RocketEngines[2].Thrust(forceY + GRAVITY);
+                    bEngine0Thrusting = false;
+                    bEngine3Thrusting = true;
+                    Debug.Log(_RocketEngines[2].gameObject.name + " Thrusting up with : " + (forceY + GRAVITY) + " force");
+                }
+            }
+            else
+            {
+                if (posEngine1.y > posEngine2.y)
+                {
+                    _RocketEngines[1].Thrust(forceY);
+                    bEngine0Thrusting = true;
+                    bEngine3Thrusting = false;
+                    Debug.Log(_RocketEngines[1].gameObject.name + " Thrusting down with : " + forceY + " force");
+                }
+                else
+                {
+                    _RocketEngines[2].Thrust(forceY);
+                    bEngine0Thrusting = false;
+                    bEngine3Thrusting = true;
+                    Debug.Log(_RocketEngines[2].gameObject.name + " Thrusting down with : " + forceY + " force");
+                }
+            }
 
-        if (Vector3.Distance(posEngine1, shipToTargetVector) > Vector3.Distance(posEngine2, shipToTargetVector))
-        {
-            if (posEngine1.y <= lowestY && transform.position.y < _TargetPosition.y)
-                _RocketEngines[1].Thrust(force + GRAVITY);
+            // Left or Right
+            if (shipToTargetVector.x > 0f)
+            {
+                if (posEngine0.x > posEngine3.x)
+                {
+                    _RocketEngines[0].Thrust(forceX);
+                    bEngine1Thrusting = true;
+                    bEngine2Thrusting = false;
+                    Debug.Log(_RocketEngines[0].gameObject.name + " Thrusting right with : " + forceY + " force");
+                }
+                else
+                {
+                    _RocketEngines[3].Thrust(forceX);
+                    bEngine1Thrusting = false;
+                    bEngine2Thrusting = true;
+                    Debug.Log(_RocketEngines[3].gameObject.name + " Thrusting right with : " + forceY + " force");
+                }
+            }
             else
-                _RocketEngines[1].Thrust(force);
-            
-            bEngine1Thrusting = true;
-            bEngine2Thrusting = false;
-        }
-        else
-        {
-            if (posEngine2.y <= lowestY && transform.position.y < _TargetPosition.y)
-                _RocketEngines[2].Thrust(force + GRAVITY);
-            else
-                _RocketEngines[2].Thrust(force);
-            
-            bEngine2Thrusting = true;
-            bEngine1Thrusting = false;
+            {
+                if (posEngine0.x < posEngine3.x)
+                {
+                    _RocketEngines[0].Thrust(forceX);
+                    bEngine1Thrusting = true;
+                    bEngine2Thrusting = false;
+                    Debug.Log(_RocketEngines[0].gameObject.name + " Thrusting left with : " + forceY + " force");
+                }
+                else
+                {
+                    _RocketEngines[3].Thrust(forceX);
+                    bEngine1Thrusting = false;
+                    bEngine2Thrusting = true;
+                    Debug.Log(_RocketEngines[2].gameObject.name + " Thrusting left with : " + forceY + " force");
+                }
+            }
         }
     }
 }
