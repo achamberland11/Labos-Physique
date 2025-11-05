@@ -55,7 +55,7 @@ public class SpaceshipController2 : SpaceshipController1
             // Left or Right
             if (shipToTargetVector.x > 0f)
             {
-                Debug.Log("Target is on the right");
+                // Debug.Log("Target is on the right");
                 if (posEngine1.x < posEngine2.x)
                 {
                     _RocketEngines[1].Thrust(forceX);
@@ -69,7 +69,7 @@ public class SpaceshipController2 : SpaceshipController1
             }
             else
             {
-                Debug.Log("Target is on the left");
+                // Debug.Log("Target is on the left");
                 if (posEngine1.x > posEngine2.x)
                 {
                     _RocketEngines[1].Thrust(forceX);
@@ -118,7 +118,7 @@ public class SpaceshipController2 : SpaceshipController1
             // Left or Right
             if (shipToTargetVector.x > 0f)
             {
-                Debug.Log("Target is on the right");
+                // Debug.Log("Target is on the right");
                 if (posEngine0.x < posEngine3.x)
                 {
                     _RocketEngines[0].Thrust(forceX);
@@ -132,7 +132,7 @@ public class SpaceshipController2 : SpaceshipController1
             }
             else
             {
-                Debug.Log("Target is on the left");
+                // Debug.Log("Target is on the left");
                 if (posEngine0.x > posEngine3.x)
                 {
                     _RocketEngines[0].Thrust(forceX);

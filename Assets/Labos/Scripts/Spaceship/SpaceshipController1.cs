@@ -18,6 +18,11 @@ public class SpaceshipController1 : SpaceshipControllerBase
             engine.EnablePropulsion(true);
         }
     }
+
+    private void LateUpdate()
+    {
+        Debug.DrawLine(transform.position, _TargetPosition, Color.green);
+    }
     
     protected void FixedUpdate()
     {
