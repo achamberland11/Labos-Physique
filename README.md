@@ -13,8 +13,6 @@ Chaque niveau conserve et étend les fonctionnalités précédentes tout en ajou
 
 ---
 
-Ce projet implémente un système de contrôle de vaisseau spatial à travers 4 niveaux progressifs de complexité. Chaque niveau ajoute des défis supplémentaires nécessitant des solutions physiques et algorithmiques plus avancées.
-
 ### Niveau 1 : Navigation de Base
 #### Implémentation
 
