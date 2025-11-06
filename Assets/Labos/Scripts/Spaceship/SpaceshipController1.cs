@@ -19,7 +19,7 @@ public class SpaceshipController1 : SpaceshipControllerBase
         }
     }
 
-    private void LateUpdate()
+    protected void LateUpdate()
     {
         Debug.DrawLine(transform.position, _TargetPosition, Color.green);
     }

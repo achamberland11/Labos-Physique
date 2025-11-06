@@ -1,8 +1,12 @@
 ﻿using Unity.VisualScripting;
 using UnityEngine;
 
-public class SpaceshipController2 : SpaceshipController1 
+public class SpaceshipController2 : SpaceshipController1
 {
+    protected Vector3 posEngine0;
+    protected Vector3 posEngine1;
+    protected Vector3 posEngine2;
+    protected Vector3 posEngine3;
 
     protected void Start()
     {
@@ -14,10 +18,10 @@ public class SpaceshipController2 : SpaceshipController1
     
     protected override void ApplyThrust(Vector3 shipToTargetVector)
     {
-        Vector3 posEngine0 = _RocketEngines[0].gameObject.transform.position;
-        Vector3 posEngine1 = _RocketEngines[1].gameObject.transform.position;
-        Vector3 posEngine2 = _RocketEngines[2].gameObject.transform.position;
-        Vector3 posEngine3 = _RocketEngines[3].gameObject.transform.position;
+        posEngine0 = _RocketEngines[0].gameObject.transform.position;
+        posEngine1 = _RocketEngines[1].gameObject.transform.position;
+        posEngine2 = _RocketEngines[2].gameObject.transform.position;
+        posEngine3 = _RocketEngines[3].gameObject.transform.position;
 
         if (Mathf.Abs(posEngine0.y) > Mathf.Abs(posEngine1.y))
         {
