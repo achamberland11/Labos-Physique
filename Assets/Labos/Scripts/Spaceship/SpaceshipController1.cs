@@ -113,15 +113,33 @@ public class SpaceshipController1 : SpaceshipControllerBase
             return;
         string msg = "Vélocité : " + _Rigidbody.linearVelocity;
 
-        Vector3 labelPosition = transform.position + Vector3.up;
+        Vector3 labelPosition = transform.position + Vector3.up*1.15f;
 
         Handles.color = Color.blue;
         
         GUIStyle labelStyle = new GUIStyle();
-        labelStyle.fontSize = 10;          // <-- your desired size
+        labelStyle.fontSize = 15;          // <-- your desired size
         labelStyle.normal.textColor = Color.blue;
         labelStyle.alignment = TextAnchor.MiddleCenter;
 
         Handles.Label(labelPosition, msg, labelStyle);
+
+        foreach (RocketEngine engine in _RocketEngines)
+        {
+            // Fonction GetThrustPower() a été ajouté, il faut donc la réimplémenter. Idéalement celle-ci devrait être
+            // intégré de base et retourner la puissance de propulsion.
+            string engineMSG = engine.GetThrustPower().ToString();
+        
+            Vector3 engineLabelPosition =  transform.position - engine.GetPushDirection();
+        
+            Handles.color = UnityEngine.Color.red;
+        
+            GUIStyle style = new GUIStyle();
+            style.fontSize = 12;
+            style.normal.textColor = Color.red;
+            style.alignment = TextAnchor.MiddleCenter;
+        
+            Handles.Label(engineLabelPosition, engineMSG, style);
+        }
     }
 }

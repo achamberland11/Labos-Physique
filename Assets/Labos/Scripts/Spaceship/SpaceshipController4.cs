@@ -4,23 +4,27 @@ using UnityEngine;
 public class SpaceshipController4 : SpaceshipController2
 {
     private PayloadComponent Payload;
+    private PayloadGoalComponent Goal;
 
     protected void Start()
     {
         base.Start();
         _Rigidbody.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
         Payload = FindPayload();
+        Goal = FindPayloadGoal();
     }
 
     protected void LateUpdate()
     {
-        Debug.DrawLine(Payload.transform.position, FindPayloadGoal(), Color.green);
+        Debug.DrawLine(Payload.transform.position, Goal.transform.position, Color.green);
     }
     
     private void FixedUpdate()
     {
         Debug.DrawLine(transform.position, Payload.transform.position, Color.blue);
-        Vector3 payloadToGoalVector = FindPayloadGoal() - Payload.transform.position;
+        if (Goal == null)
+            return;
+        Vector3 payloadToGoalVector = Goal.transform.position - Payload.transform.position;
         
         // Apply force relative to distance
         forceY = BASEFORCE + (Mathf.Abs(payloadToGoalVector.y) *0.5f);
@@ -29,6 +33,18 @@ public class SpaceshipController4 : SpaceshipController2
         ApplyThrust(payloadToGoalVector);
     }
     
+    public override void OnGoalSpawned()
+    {
+        base.OnGoalSpawned();
+        Goal = FindPayloadGoal();
+    }
+
+    public override void OnGoalDestroyed()
+    {
+        base.OnGoalDestroyed();
+        Goal = FindPayloadGoal();
+    }
+
     PayloadComponent FindPayload()
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, 500f);
@@ -63,7 +79,7 @@ public class SpaceshipController4 : SpaceshipController2
  
     
     
-    Vector3 FindPayloadGoal()
+    PayloadGoalComponent FindPayloadGoal()
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, 500f);
         foreach (var col in hits)
@@ -72,10 +88,10 @@ public class SpaceshipController4 : SpaceshipController2
             if (goal != null)
             {
                 Debug.DrawLine(transform.position, goal.transform.position, Color.yellow);
-                return goal.transform.position;
+                return goal;
             }
         }
 
-        return Vector3.zero;
+        return null;
     }
 }

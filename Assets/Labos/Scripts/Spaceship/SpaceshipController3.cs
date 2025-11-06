@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class SpaceshipController3 : SpaceshipController1 
 {
+    GoalComponent goal;
 
     protected void Start()
     {
@@ -15,10 +16,18 @@ public class SpaceshipController3 : SpaceshipController1
     {
         base.Update();
     }
+    
+    protected void LateUpdate()
+    {
+        if (goal != null)
+            Debug.DrawLine(transform.position, goal.transform.position, Color.green);
+    }
 
     private void FixedUpdate()
     {
-        Vector3 shipToGoalVector = FindPath(FindGoal()) - transform.position;
+        if (!goal)
+            return;
+        Vector3 shipToGoalVector = FindPath(goal.transform.position) - transform.position;
         
         // Apply force relative to distance
         forceY = BASEFORCE + (Mathf.Abs(shipToGoalVector.y) *0.5f);
@@ -26,13 +35,31 @@ public class SpaceshipController3 : SpaceshipController1
 
         ApplyThrust(shipToGoalVector);
     }
-    
+
+    public override void OnGoalSpawned()
+    {
+        base.OnGoalSpawned();
+        goal = FindGoal();
+    }
+
+    public override void OnGoalDestroyed()
+    {
+        base.OnGoalDestroyed();
+        goal = FindGoal();
+    }
+
+    public override void OnGoalReached(GoalComponent goalComponent)
+    {
+        base.OnGoalReached(goalComponent);
+        goal = goalComponent;
+    }
+
     protected override void ApplyThrust(Vector3 shipToGoalVector)
     {
         base.ApplyThrust(shipToGoalVector);
     }
 
-    Vector3 FindGoal()
+    GoalComponent FindGoal()
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, 500f);
         foreach (var col in hits)
@@ -41,11 +68,11 @@ public class SpaceshipController3 : SpaceshipController1
             if (goal != null)
             {
                 Debug.DrawLine(transform.position, goal.transform.position, Color.yellow);
-                return goal.transform.position;
+                return goal;
             }
         }
 
-        return Vector3.zero;
+        return null;
     }
 
     Vector3 FindPath(Vector3 goalPosition)
