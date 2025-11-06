@@ -29,8 +29,8 @@ Chaque niveau conserve et étend les fonctionnalités précédentes tout en ajou
 **Gestion des collisions :**
 - Détection des collisions avec l'objectif via `OnCollisionStay`
 - Analyse de la normale de contact pour identifier le côté du vaisseau touché
-- Application d'une poussée correctrice (150% de la force normale) pour se dégager. Ne prend pas en compte les rebord 
-du niveau, prend seulement en compte les collision avec l'obstacle. Cette fonctionnalité est donc seulement utile dans le 
+- Application d'une poussée correctrice (150% de la force normale) pour se dégager. Ne prend pas en compte les rebords 
+du niveau, prend seulement en compte les collisions avec l'obstacle. Cette fonctionnalité est donc seulement utile dans le 
 niveau 3.
 
 **Visualisation de débogage :**
